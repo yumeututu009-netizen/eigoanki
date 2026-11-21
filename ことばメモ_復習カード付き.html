@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ことばメモ｜英単語クイック復習</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef2f7;--surface:#fff;--ink:#17202e;--sub:#5d6b80;--line:#d5dce7;--accent:#2f4ee0;--accent-ink:#fff;--ok:#16a06a;--ng:#d6453d;--chip:#e3e9f5}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1520;--surface:#18202d;--ink:#e8edf5;--sub:#91a0b6;--line:#2a3547;--accent:#7c93ff;--accent-ink:#0f1520;--ok:#3fcf94;--ng:#ff7b72;--chip:#222d40}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0f1520;--surface:#18202d;--ink:#e8edf5;--sub:#91a0b6;--line:#2a3547;--accent:#7c93ff;--accent-ink:#0f1520;--ok:#3fcf94;--ng:#ff7b72;--chip:#222d40}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,sans-serif}
+main{max-width:560px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.25rem;margin:0 0 14px;letter-spacing:.02em}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.tabs{display:flex;gap:4px;background:var(--chip);padding:4px;border-radius:12px;margin-bottom:16px}
+.tabs button{flex:1;border:0;background:none;padding:10px;border-radius:9px;font-weight:600;color:var(--sub)}
+.tabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(20,30,60,.15)}
+.add{display:grid;gap:8px;margin-bottom:18px}
+.add input{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface)}
+#w{font-size:1.2rem;font-weight:600}
+.row{display:flex;gap:8px}
+.row input{flex:1}
+.primary{border:0;background:var(--accent);color:var(--accent-ink);padding:0 20px;border-radius:12px;font-weight:700;min-height:48px}
+.ghost{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 12px;color:var(--sub)}
+.hint{color:var(--sub);font-size:.85rem;margin:0}
+.search{margin-bottom:10px}
+ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:center}
+li .t{flex:1;min-width:0}
+li b{font-size:1.05rem;overflow-wrap:anywhere}
+li small{display:block;color:var(--sub);overflow-wrap:anywhere}
+.lv{font-size:.75rem;background:var(--chip);color:var(--sub);padding:2px 8px;border-radius:20px;white-space:nowrap}
+.lv.done{background:var(--ok);color:#fff}
+.icon{border:0;background:none;color:var(--sub);padding:8px;border-radius:8px;font-size:1.05rem}
+.empty{text-align:center;color:var(--sub);padding:36px 10px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px 20px;min-height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;width:100%;cursor:pointer}
+.card .word{font-size:clamp(2rem,9vw,2.8rem);font-weight:800;letter-spacing:.01em;overflow-wrap:anywhere}
+.card .ans{font-size:1.2rem;min-height:1.8em}
+.prog{display:flex;justify-content:space-between;color:var(--sub);font-size:.85rem;margin-bottom:8px}
+.bar{height:6px;background:var(--chip);border-radius:6px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.judge{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.judge button{border:0;border-radius:12px;min-height:54px;font-weight:700;color:#fff}
+.judge .ng{background:var(--ng)}.judge .ok{background:var(--ok)}
+.tools{display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:8px}
+.add select{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:inherit;font:inherit}
+label.chk{display:flex;gap:6px;align-items:center;color:var(--sub);font-size:.9rem}
+.filter{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.filter input,.filter select,textarea{width:100%;min-width:0;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface)}
+details.imp{margin-top:20px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+details.imp summary{cursor:pointer;font-weight:600}
+details.imp .row{margin:10px 0}
+.row .ghost{flex:1}
+textarea{min-height:90px;resize:vertical;font:inherit;color:inherit;margin-bottom:8px}
+.flip{perspective:1200px;width:100%;cursor:pointer;border-radius:18px}
+.flip .inner{display:grid;transition:transform .5s;transform-style:preserve-3d}
+.flip.flipped .inner{transform:rotateY(180deg)}
+.face{grid-area:1/1;-webkit-backface-visibility:hidden;backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px 18px;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px}
+.face.back{transform:rotateY(180deg);justify-content:flex-start}
+.face .word{font-size:clamp(2rem,9vw,2.8rem);font-weight:800;letter-spacing:.01em;overflow-wrap:anywhere}
+.face .tap{color:var(--sub);font-size:.95rem}
+.bword{font-size:1.5rem;font-weight:800;overflow-wrap:anywhere}
+.mean{font-size:1.15rem;overflow-wrap:anywhere}
+.usage{width:100%;text-align:left;border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+.uh{font-size:.8rem;font-weight:700;color:var(--sub);margin-bottom:6px}
+.usage .ex{margin-bottom:10px}
+.usage .en{font-weight:600;overflow-wrap:anywhere}
+.usage .en mark{background:rgba(255,214,0,.35);color:inherit;border-radius:3px;padding:0 2px}
+.usage .ja{color:var(--sub);font-size:.92rem}
+.usage .ghost{padding:6px 12px;font-size:.85rem}
+.usage .src{margin-top:8px;font-size:.75rem}
+.judge[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<h1>ことばメモ</h1>
+<div class="tabs" role="tablist">
+  <button role="tab" id="tab-list" aria-selected="true">単語帳</button>
+  <button role="tab" id="tab-rev" aria-selected="false">復習</button>
+</div>
+
+<div class="filter">
+  <input id="q" placeholder="単語・意味で絞り込み" autocomplete="off" aria-label="単語で絞り込み">
+  <select id="gf" aria-label="ラベルで絞り込み"><option value="">すべてのラベル</option></select>
+</div>
+
+<section id="v-list">
+  <div class="add">
+    <input id="w" placeholder="わからなかった単語" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="英単語">
+    <div class="row">
+      <input id="m" placeholder="意味・メモ（あとで書いてもOK）" autocomplete="off" aria-label="意味やメモ">
+      <button class="primary" id="add">追加</button>
+    </div>
+    <select id="g" aria-label="ラベル"></select>
+    <p class="hint">単語を入力して Enter で追加。意味は空欄でも保存できます。ラベルは任意です。</p>
+  </div>
+  <ul id="list"></ul>
+  <details class="imp">
+    <summary>ショートカットから取り込む</summary>
+    <p class="hint" style="margin-top:8px">1行に「単語|意味|ラベル（名詞・自動詞など）」の形式。登録済みの単語はスキップするので、同じファイルを何度取り込んでも大丈夫です。</p>
+    <div class="row"><button class="ghost" id="file">ファイルを選ぶ</button><button class="ghost" id="paste">貼り付けて取り込む</button></div>
+    <input type="file" id="fi" accept=".txt,text/plain" hidden>
+    <textarea id="ta" placeholder="ここに直接貼り付けてもOK" aria-label="取り込むテキスト"></textarea>
+    <button class="primary" id="imp">取り込む</button>
+    <p class="hint" id="impmsg" aria-live="polite" style="margin-top:8px"></p>
+  </details>
+</section>
+
+<section id="v-rev" hidden>
+  <div id="rev"></div>
+</section>
+</main>
+
+<script>
+(function(){
+  var KEY="wordreview:v1", words=[], queue=[], idx=0, shown=false, includeDone=false;
+  var $=function(s){return document.querySelector(s)};
+  function load(){try{var r=localStorage.getItem(KEY);words=r?JSON.parse(r):[]}catch(e){words=[]}if(!Array.isArray(words))words=[]}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(words))}catch(e){}}
+  function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function speak(t){try{var u=new SpeechSynthesisUtterance(t);u.lang="en-US";speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+
+  function add(){
+    var w=$("#w").value.trim(), m=$("#m").value.trim(), g=$("#g").value.trim();
+    if(!w){$("#w").focus();return}
+    var dup=words.find(function(x){return x.w.toLowerCase()===w.toLowerCase()});
+    if(dup){ if(m)dup.m=m; if(g)dup.g=g; dup.lv=0; }
+    else words.unshift({id:uid(),w:w,m:m,g:g,lv:0,t:Date.now(),last:0});
+    save();$("#w").value="";$("#m").value="";$("#g").value="";$("#w").focus();grammarOpts();renderList();
+  }
+
+  function filtered(){
+    var q=$("#q").value.trim().toLowerCase(), g=$("#gf").value;
+    return words.filter(function(x){return (!g||(x.g||"")===g)&&(!q||x.w.toLowerCase().indexOf(q)>-1||(x.m||"").toLowerCase().indexOf(q)>-1)});
+  }
+  var LABELS=["文法項目","名詞","自動詞","他動詞","形容詞","副詞","接続詞","前置詞","熟語","その他"];
+  function grammarOpts(){
+    var o=LABELS.map(function(s){return '<option>'+s+'</option>'}).join("");
+    if(!$("#gf").dataset.ok){$("#gf").innerHTML='<option value="">すべてのラベル</option>'+o;$("#gf").dataset.ok="1"}
+    if(!$("#g").dataset.ok){$("#g").innerHTML='<option value="">ラベルなし</option>'+o;$("#g").dataset.ok="1"}
+  }
+  function importText(t){
+    var n=0,sk=0;
+    String(t).split(/\r?\n/).forEach(function(line){
+      var p=line.split(/[|\t｜]/).map(function(s){return s.trim()});
+      var w=p[0]; if(!w)return;
+      var m=p[1]||"", g=p[2]||""; if(LABELS.indexOf(g)<0)g=g?"その他":"";
+      var d=words.find(function(x){return x.w.toLowerCase()===w.toLowerCase()});
+      if(d){ if(m&&!d.m)d.m=m; if(g&&!d.g)d.g=g; sk++; }
+      else{ words.unshift({id:uid(),w:w,m:m,g:g,lv:0,t:Date.now(),last:0}); n++; }
+    });
+    save();grammarOpts();renderList();
+    $("#impmsg").textContent=n+"語を追加しました"+(sk?"（登録済みの"+sk+"語はスキップ）":"")+"。";
+  }
+
+  function renderList(){
+    var items=filtered();
+    var ul=$("#list");
+    if(!items.length){ul.innerHTML='<li class="empty" style="display:block;border:0;background:none">'+(words.length?"見つかりませんでした。":"まだ単語がありません。上の欄に入力して追加しましょう。")+'</li>';return}
+    ul.innerHTML=items.map(function(x){
+      return '<li data-id="'+x.id+'"><div class="t"><b>'+esc(x.w)+'</b><small>'+(x.m?esc(x.m):"（意味は未入力）")+'</small>'+(x.g?'<small>'+esc(x.g)+'</small>':'')+'</div>'
+      +'<span class="lv'+(x.lv>=3?" done":"")+'">'+(x.lv>=3?"覚えた":"Lv "+x.lv)+'</span>'
+      +'<button class="icon" data-a="say" aria-label="発音">🔊</button>'
+      +'<button class="icon" data-a="del" aria-label="削除">✕</button></li>';
+    }).join("");
+  }
+
+  var EXKEY="wordreview:ex:v1", ex={}, exErr={}, exLoading={};
+  function loadEx(){try{var r=localStorage.getItem(EXKEY);ex=r?JSON.parse(r):{}}catch(e){ex={}}if(!ex||typeof ex!=="object")ex={}}
+  function saveEx(){try{localStorage.setItem(EXKEY,JSON.stringify(ex))}catch(e){}}
+  function exKey(w){return w.toLowerCase()}
+  function searchable(w){return /^[\x20-\x7E\u2019]+$/.test(w)&&/[A-Za-z]/.test(w)}
+  function exQuery(w){var s=w.replace(/\u2019/g,"'").replace(/[^A-Za-z0-9' -]/g," ").replace(/\s+-+/g," ").replace(/^-+/,"").replace(/\s+/g," ").trim();return /\s/.test(s)?'"'+s+'"':s}
+  function hl(t,w){
+    var h=esc(t);
+    var ws=w.replace(/\u2019/g,"'").replace(/[^A-Za-z0-9'\s-]/g,"").trim().split(/\s+/).filter(Boolean).map(function(s){return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")});
+    if(!ws.length)return h;
+    try{h=h.replace(new RegExp("\\b("+ws.join("\\s+")+"\\w*)","i"),"<mark>$1</mark>")}catch(e){}
+    return h;
+  }
+  function refreshEx(w){
+    var c=queue[idx], box=$("#exbox");
+    if(c&&box&&exKey(c.w)===exKey(w))box.innerHTML=exHTML(c);
+  }
+  function fetchEx(w,force){
+    var k=exKey(w);
+    if(!searchable(w)||exLoading[k])return;
+    if(!force&&(ex[k]||exErr[k]))return;
+    exLoading[k]=1;delete exErr[k];
+    var p=new URLSearchParams({lang:"eng",q:exQuery(w),"trans:lang":"jpn","trans:is_direct":"yes",is_unapproved:"no",sort:"random",limit:"3"});
+    fetch("https://api.tatoeba.org/v1/sentences?"+p.toString())
+      .then(function(r){if(!r.ok)throw new Error("http");return r.json()})
+      .then(function(j){
+        var items=[];
+        (j.data||[]).forEach(function(d){
+          var tr=[].concat.apply([],d.translations||[]).filter(function(t){return t&&t.text})[0];
+          if(tr)items.push({en:d.text,ja:tr.text});
+        });
+        if(items.length){ex[k]=items;saveEx()}else exErr[k]="none";
+      })
+      .catch(function(){exErr[k]="net"})
+      .then(function(){delete exLoading[k];refreshEx(w)});
+  }
+  function exHTML(c){
+    var k=exKey(c.w);
+    if(!searchable(c.w))return '<p class="hint">英語の単語・表現のみ、例文を検索できます。</p>';
+    if(exLoading[k])return '<p class="hint">例文を取得中…</p>';
+    if(ex[k]&&ex[k].length){
+      return ex[k].map(function(x){return '<div class="ex"><div class="en">'+hl(x.en,c.w)+'</div><div class="ja">'+esc(x.ja)+'</div></div>'}).join("")
+        +'<button class="ghost" id="reex">別の例文に変える</button>';
+    }
+    if(exErr[k]==="none")return '<p class="hint">この表現の例文は見つかりませんでした。</p>';
+    return '<p class="hint">例文を取得できませんでした。ネット接続を確認してください。</p><button class="ghost" id="reex">再取得</button>';
+  }
+  function flip(){
+    var card=$("#card");if(!card)return;
+    shown=!shown;
+    card.classList.toggle("flipped",shown);
+    card.querySelector(".front").inert=shown;
+    card.querySelector(".back").inert=!shown;
+    var j=$("#judge");if(j)j.hidden=!shown;
+  }
+
+  function buildQueue(){
+    queue=filtered().filter(function(x){return includeDone||x.lv<3}).sort(function(a,b){return a.lv-b.lv||a.last-b.last});
+    idx=0;shown=false;
+  }
+
+  function renderRev(){
+    var el=$("#rev");
+    var chk='<label class="chk"><input type="checkbox" id="inc"'+(includeDone?" checked":"")+'> 覚えた単語も含める</label>';
+    if(!queue.length){
+      el.innerHTML='<div class="empty">'+(words.length?"この条件で復習する単語はありません。絞り込みを変えるか、「覚えた単語も含める」をオンにしてください。":"単語帳に単語を追加すると、ここで復習できます。")+'</div><div class="tools">'+chk+'</div>';
+      return;
+    }
+    if(idx>=queue.length){
+      el.innerHTML='<div class="empty"><p style="font-size:1.2rem;color:var(--ink);margin:0 0 6px">おつかれさまでした</p>'+queue.length+'語を復習しました。</div>'
+      +'<div class="tools"><button class="primary" id="again">もう一度</button>'+chk+'</div>';
+      return;
+    }
+    var c=queue[idx], pct=Math.round(idx/queue.length*100);
+    fetchEx(c.w); if(queue[idx+1])fetchEx(queue[idx+1].w);
+    el.innerHTML='<div class="prog"><span>'+(idx+1)+' / '+queue.length+'</span><span>Lv '+c.lv+'</span></div>'
+    +'<div class="bar"><i style="width:'+pct+'%"></i></div>'
+    +'<div class="flip'+(shown?" flipped":"")+'" id="card" role="button" tabindex="0" aria-label="カードをめくる"><div class="inner">'
+    +'<div class="face front"'+(shown?" inert":"")+'><span class="word">'+esc(c.w)+'</span><span class="tap">タップしてめくる</span></div>'
+    +'<div class="face back"'+(shown?"":" inert")+'>'
+    +'<div>'+(c.g?'<span class="lv">'+esc(c.g)+'</span>':'<span class="hint">ラベルなし</span>')+'</div>'
+    +'<div class="bword">'+esc(c.w)+'</div>'
+    +'<div class="mean">'+(c.m?esc(c.m):'<span class="hint">意味が未入力です</span>')+'</div>'
+    +'<div class="usage"><div class="uh">用法</div><div id="exbox">'+exHTML(c)+'</div><p class="hint src">例文の出典：Tatoeba</p></div>'
+    +'</div></div></div>'
+    +'<div class="judge" id="judge"'+(shown?"":" hidden")+'><button class="ng" id="ng">まだ</button><button class="ok" id="ok">覚えた</button></div>'
+    +'<div class="tools"><button class="ghost" id="say">🔊 発音</button>'+chk+'</div>';
+  }
+
+  function judge(ok){
+    var c=queue[idx]; c.lv=ok?Math.min(3,c.lv+1):0; c.last=Date.now(); save();
+    idx++;shown=false;renderRev();
+  }
+
+  function show(tab){
+    var rev=tab==="rev";
+    $("#v-list").hidden=rev;$("#v-rev").hidden=!rev;
+    $("#tab-list").setAttribute("aria-selected",!rev);$("#tab-rev").setAttribute("aria-selected",rev);
+    if(rev){buildQueue();renderRev()}else renderList();
+  }
+
+  $("#tab-list").onclick=function(){show("list")};
+  $("#tab-rev").onclick=function(){show("rev")};
+  $("#add").onclick=add;
+  $("#w").addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.isComposing){e.preventDefault();add()}});
+  $("#m").addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.isComposing){e.preventDefault();add()}});
+  function onFilter(){ if(!$("#v-rev").hidden){buildQueue();renderRev()} else renderList(); }
+  $("#q").addEventListener("input",onFilter);
+  $("#gf").addEventListener("change",onFilter);
+  $("#g").addEventListener("keydown",function(e){if(e.key==="Enter"&&!e.isComposing){e.preventDefault();add()}});
+  $("#imp").onclick=function(){importText($("#ta").value);$("#ta").value=""};
+  $("#file").onclick=function(){$("#fi").click()};
+  $("#fi").onchange=function(e){var f=e.target.files[0];if(!f)return;f.text().then(importText);e.target.value=""};
+  $("#paste").onclick=function(){
+    var fail=function(){$("#impmsg").textContent="貼り付けできませんでした。下の欄に直接貼り付けて「取り込む」を押してください。"};
+    try{navigator.clipboard.readText().then(importText).catch(fail)}catch(e){fail()}
+  };
+  $("#list").addEventListener("click",function(e){
+    var b=e.target.closest("button");if(!b)return;
+    var li=b.closest("li"), x=words.find(function(y){return y.id===li.dataset.id});if(!x)return;
+    if(b.dataset.a==="say")speak(x.w);
+    if(b.dataset.a==="del"){words=words.filter(function(y){return y!==x});save();grammarOpts();renderList()}
+  });
+  $("#rev").addEventListener("click",function(e){
+    var t=e.target;
+    if(t.id==="reex"){fetchEx(queue[idx].w,true);refreshEx(queue[idx].w)}
+    else if(t.closest("#card")){flip()}
+    else if(t.id==="ok")judge(true);
+    else if(t.id==="ng")judge(false);
+    else if(t.id==="say")speak(queue[idx].w);
+    else if(t.id==="again"){buildQueue();renderRev()}
+  });
+  $("#rev").addEventListener("keydown",function(e){
+    if((e.key==="Enter"||e.key===" ")&&e.target.id==="card"){e.preventDefault();flip()}
+  });
+  $("#rev").addEventListener("change",function(e){
+    if(e.target.id==="inc"){includeDone=e.target.checked;buildQueue();renderRev()}
+  });
+
+  load();loadEx();grammarOpts();renderList();
+})();
+</script>
+</body>
+</html>
